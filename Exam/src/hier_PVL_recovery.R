@@ -194,7 +194,7 @@ load("parameter_recovery/infer_mu_w.rda")
 
 # let's look at some scatter plots
 # plotting code courtesy of Lasse
-source('parameter_recovery_1/recov_plot.R')
+source('src/recov_plot.R')
 pl1 <- recov_plot(true_mu_w, infer_mu_w, c("true mu_w", "infer mu_w"), 'smoothed linear fit')
 pl2 <- recov_plot(true_mu_A, infer_mu_A, c("true mu_A", "infer mu_A"), 'smoothed linear fit')
 pl3 <- recov_plot(true_mu_theta, infer_mu_theta, c("true mu_theta", "infer mu_theta"), 'smoothed linear fit')
