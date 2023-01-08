@@ -1,0 +1,90 @@
+model {
+
+  ###### Priors ################
+  alpha_a ~  dnorm(0.2,1) # Based on prior findings
+  mu_a ~ dnorm(0,1)T(0,1)
+  lambda_a_men ~ dgamma(.01,.01) 
+  lambda_a_women ~ dgamma(.01,.01) 
+  
+  alpha_A ~  dnorm(0,1)
+  mu_A ~ dnorm(0,1)
+  lambda_A_men ~ dgamma(.01,.01) 
+  lambda_A_women ~ dgamma(.01,.01) 
+
+  alpha_theta ~  dnorm(0,1)
+  mu_theta ~ dnorm(0,1)T(0,)
+  lambda_theta_men ~ dgamma(.01,.01) 
+  lambda_theta_women ~ dgamma(.01,.01) 
+  
+  alpha_w ~  dnorm(0,1)
+  mu_w ~ dnorm(0,1)T(0,)
+  lambda_w_men ~ dgamma(.01,.01) 
+  lambda_w_women ~ dgamma(.01,.01) 
+  
+
+  ###################################################
+  #-------- men model--------------------------------
+  ###################################################
+  for (s in 1:nsubs_men){ #subject loop
+    w_men[s] ~ dnorm((mu_w -(alpha_w/2)), lambda_w_men)
+    A_men[s] ~ dnorm((mu_A -(alpha_A/2)), lambda_A_men)
+    theta_men[s] ~ dnorm((mu_theta -(alpha_theta/2)), lambda_theta_men)T(0,)
+    a_men[s] ~ dnorm((mu_a -(alpha_a/2)), lambda_a_men)
+   
+   
+    Ev_men[s,1,1] ~ dnorm(0,0.01)
+    Ev_men[s,1,2] ~ dnorm(0,0.01)
+    Ev_men[s,1,3] ~ dnorm(0,0.01)
+    Ev_men[s,1,4] ~ dnorm(0,0.01)
+    
+    for (t in 2:ntrials) {   # ensuring that we don't process NAs for those subjects that have less than 100 trials 
+    
+      for (d in 1:4) {
+        u_men[s, t, d] <- ifelse(X_men[s, t-1] < 0, -w_men[s] * abs(X_men[s, t-1])^A_men[s], X_men[s,t-1]^A_men[s]) # implementing Prospect Theory (w and A)
+        Ev_update_men[s, t, d] <- Ev_men[s, t-1, d] + (a_men[s] * (u_men[s, t, d] - Ev_men[s, t-1, d])) # value to update Ev by (based on delta rule (incl. learning rate))
+        Ev_men[s,t,d] <- ifelse(x_men[s,t-1] == d, Ev_update_men[s,t,d], Ev_men[s, t-1, d]) # updating Ev for only the chosen deck
+        exp_p_men[s, t, d] <- exp(theta_men[s]*Ev_men[s, t, d]) # first step of softmax
+      }
+    
+      for (d in 1:4) {
+        p_men[s, t, d] <- exp_p_men[s, t, d]/sum(exp_p_men[s, t, ]) # second step of softmax (convertin to probability space)
+      }
+    
+      x_men[s,t] ~ dcat(p_men[s,t, ]) # the actual choice
+    }
+  }
+
+  ###################################################
+  #-------- women model----------------------------
+  ###################################################
+  for (s in 1:nsubs_women){ #subject loop
+    w_women[s] ~ dnorm((mu_w +(alpha_w/2)), lambda_w_women)
+    A_women[s] ~ dnorm((mu_A +(alpha_A/2)), lambda_A_women)
+    theta_women[s] ~ dnorm((mu_theta +(alpha_theta/2)), lambda_theta_women)T(0,)
+    a_women[s] ~ dnorm((mu_a +(alpha_a/2)), lambda_a_women)
+   
+   
+    Ev_women[s,1,1] ~ dnorm(0,0.01)
+    Ev_women[s,1,2] ~ dnorm(0,0.01)
+    Ev_women[s,1,3] ~ dnorm(0,0.01)
+    Ev_women[s,1,4] ~ dnorm(0,0.01)
+    
+    for (t in 2:ntrials) {   # ensuring that we don't process NAs for those subjects that have less than 100 trials 
+    
+      for (d in 1:4) {
+        u_women[s, t, d] <- ifelse(X_women[s, t-1] < 0, -w_women[s] * abs(X_women[s, t-1])^A_women[s], X_women[s,t-1]^A_women[s]) # implementing Prospect Theory (w and A)
+        Ev_update_women[s, t, d] <- Ev_women[s, t-1, d] + (a_women[s] * (u_women[s, t, d] - Ev_women[s, t-1, d])) # value to update Ev by (based on delta rule (incl. learning rate))
+        Ev_women[s,t,d] <- ifelse(x_women[s,t-1] == d, Ev_update_women[s,t,d], Ev_women[s, t-1, d]) # updating Ev for only the chosen deck
+        exp_p_women[s, t, d] <- exp(theta_women[s]*Ev_women[s, t, d]) # first step of softmax
+      }
+    
+      for (d in 1:4) {
+        p_women[s, t, d] <- exp_p_women[s, t, d]/sum(exp_p_women[s, t, ]) # second step of softmax (convertin to probability space)
+      }
+    
+      x_women[s,t] ~ dcat(p_women[s,t, ]) # the actual choice
+    }
+  }
+
+
+}

@@ -1,0 +1,37 @@
+model {
+
+  ###### Priors ################
+  alpha ~  dnorm(10,0.04) # Based on prior findings.
+  mu ~ dnorm(0,1)
+
+  #variability between subjects
+  Glambda ~ dgamma(.1,.1) 
+  
+  #variability between trials
+  #Slambda ~ dgamma(.1,.1)
+
+  ##############################
+  
+  for (s in 1:nsubs_men) {
+
+    #variability between trials
+    Slambda_men[s] ~ dgamma(1,1) 
+
+  
+    xcum_men[s,100] ~ dnorm((mu + (alpha/2)),Glambda)
+  
+  }
+
+  for (s in 1:nsubs_women) {
+
+    #variability between trials
+    Slambda_women[s] ~ dgamma(1,1) 
+
+    
+    xcum_women[s,100] ~ dnorm((mu - (alpha/2)),Glambda)
+
+  
+  }
+
+
+}

@@ -1,0 +1,43 @@
+model {
+ 
+  # setting priors (at the group level)
+  mu_w ~ dnorm(0,1)T(0,) 
+  mu_A ~ dnorm(0,1) # can't be truncated in order for the model to run (negative values are a violation of the Prospet Theory model, but not likely to affect anything here)
+  mu_theta ~ dnorm(0,1)T(0,) 
+  mu_a ~ dnorm(0,1)T(0,1) 
+   
+  lambda_w ~ dgamma(0.01,0.01)
+  lambda_A ~ dgamma(0.01,0.01)
+  lambda_theta ~ dgamma(0.01,0.01)
+  lambda_a ~ dgamma(0.01,0.01) 
+
+   
+   
+  for (s in 1:nsubs){                                       #subject loop
+    w[s] ~ dnorm(mu_w, lambda_w)
+    A[s] ~ dnorm(mu_A, lambda_A)
+    theta[s] ~ dnorm(mu_theta, lambda_theta)T(0,)
+    a[s] ~ dnorm(mu_a, lambda_a)
+   
+    Ev[s,1,1] ~ dnorm(0,0.01)
+    Ev[s,1,2] ~ dnorm(0,0.01)
+    Ev[s,1,3] ~ dnorm(0,0.01)
+    Ev[s,1,4] ~ dnorm(0,0.01)
+    
+    for (t in 2:ntrials[s]) {   # ensuring that we don't process NAs for those subjects that have less than 100 trials 
+    
+      for (d in 1:4) {
+        u[s, t, d] <- ifelse(X[s, t-1] < 0, -w[s] * abs(X[s, t-1])^A[s], X[s,t-1]^A[s]) # implementing Prospect Theory (w and A)
+        Ev_update[s, t, d] <- Ev[s, t-1, d] + (a[s] * (u[s, t, d] - Ev[s, t-1, d])) # value to update Ev by (based on delta rule (incl. learning rate))
+        Ev[s,t,d] <- ifelse(x[s,t-1] == d, Ev_update[s,t,d], Ev[s, t-1, d]) # updating Ev for only the chosen deck
+        exp_p[s, t, d] <- exp(theta[s]*Ev[s, t, d]) # first step of softmax
+      }
+    
+      for (d in 1:4) {
+        p[s, t, d] <- exp_p[s, t, d]/sum(exp_p[s, t, ]) # second step of softmax (convertin to probability space)
+      }
+    
+      x[s,t] ~ dcat(p[s,t, ]) # the actual choice
+    }
+  }
+}
