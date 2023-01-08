@@ -209,19 +209,13 @@ ggarrange(pl1, pl2, pl3, pl4)
 # In short, we can't quite trust estimates of mu_w and mu_theta. This is problematic, but there's little to do
 # about it in the short time left.
 
-# sigma (aka. true_lambda) re-coded as precision
-pl1 <- recov_plot( true_lambda_w,infer_lambda_w, c("infer lambda_w","true lambda_w"), 'smoothed linear fit')
-pl2 <- recov_plot(true_lambda_A,infer_lambda_A,  c("infer lambda_A","true lambda_A"), 'smoothed linear fit')
-pl3 <- recov_plot(true_lambda_theta,infer_lambda_theta, c("infer lambda_theta", "true lambda_theta"), 'smoothed linear fit')
-pl4 <- recov_plot(true_lambda_a,infer_lambda_a,  c("infer lambda_a", "true lambda_a"), 'smoothed linear fit')
+# lambda plots
+pl1 <- recov_plot( true_lambda_w,infer_lambda_w, c("true lambda_w","infer lambda_w"), 'smoothed linear fit')
+pl2 <- recov_plot(true_lambda_A,infer_lambda_A,  c("true lambda_A","infer lambda_A"), 'smoothed linear fit')
+pl3 <- recov_plot(true_lambda_theta,infer_lambda_theta, c("true lambda_theta", "infer lambda_theta"), 'smoothed linear fit')
+pl4 <- recov_plot(true_lambda_a,infer_lambda_a,  c("true lambda_a", "infer lambda_a"), 'smoothed linear fit')
 ggarrange(pl1, pl2, pl3, pl4)
 
-# lambda (aka. infer_lambda) re-coded as SD
-pl1 <- recov_plot(1/sqrt(infer_lambda_w), 1/sqrt(true_lambda_w), c("infer lambda_w","true lambda_w"), 'smoothed linear fit')
-pl2 <- recov_plot(1/sqrt(infer_lambda_A), 1/sqrt(true_lambda_A), c("infer lambda_A","true lambda_A"), 'smoothed linear fit')
-pl3 <- recov_plot(1/sqrt(infer_lambda_theta), 1/sqrt(true_lambda_theta), c("infer lambda_theta", "true lambda_theta"), 'smoothed linear fit')
-pl4 <- recov_plot(1/sqrt(infer_lambda_a), 1/sqrt(true_lambda_a), c("infer lambda_a", "true lambda_a"), 'smoothed linear fit')
-ggarrange(pl1, pl2, pl3, pl4)
 
 # Note - ridiculous over- and underestimation of lambda values.
 
