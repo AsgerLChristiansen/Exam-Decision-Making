@@ -144,49 +144,49 @@ end_time = Sys.time()
 end_time - start_time
 
 
-save(true_lambda_a, file = "parameter_recovery_1/true_lambda_a.rda")
-save(true_lambda_A, file = "parameter_recovery_1/true_lambda_A.rda")
-save(true_lambda_theta, file = "parameter_recovery_1/true_lambda_theta.rda")
-save(true_lambda_w, file = "parameter_recovery_1/true_lambda_w.rda")
-save(true_mu_a, file = "parameter_recovery_1/true_mu_a.rda")
-save(true_mu_A, file = "parameter_recovery_1/true_mu_A.rda")
-save(true_mu_theta, file = "parameter_recovery_1/true_mu_theta.rda")
-save(true_mu_w, file = "parameter_recovery_1/true_mu_w.rda")
+save(true_lambda_a, file = "parameter_recovery/true_lambda_a.rda")
+save(true_lambda_A, file = "parameter_recovery/true_lambda_A.rda")
+save(true_lambda_theta, file = "parameter_recovery/true_lambda_theta.rda")
+save(true_lambda_w, file = "parameter_recovery/true_lambda_w.rda")
+save(true_mu_a, file = "parameter_recovery/true_mu_a.rda")
+save(true_mu_A, file = "parameter_recovery/true_mu_A.rda")
+save(true_mu_theta, file = "parameter_recovery/true_mu_theta.rda")
+save(true_mu_w, file = "parameter_recovery/true_mu_w.rda")
 
 
 
 
-save(infer_lambda_a, file = "parameter_recovery_1/infer_lambda_a.rda")
-save(infer_lambda_A, file = "parameter_recovery_1/infer_lambda_A.rda")
-save(infer_lambda_theta, file = "parameter_recovery_1/infer_lambda_theta.rda")
-save(infer_lambda_w, file = "parameter_recovery_1/infer_lambda_w.rda")
-save(infer_mu_a, file = "parameter_recovery_1/infer_mu_a.rda")
-save(infer_mu_A, file = "parameter_recovery_1/infer_mu_A.rda")
-save(infer_mu_theta, file = "parameter_recovery_1/infer_mu_theta.rda")
-save(infer_mu_w, file = "parameter_recovery_1/infer_mu_w.rda")
+save(infer_lambda_a, file = "parameter_recovery/infer_lambda_a.rda")
+save(infer_lambda_A, file = "parameter_recovery/infer_lambda_A.rda")
+save(infer_lambda_theta, file = "parameter_recovery/infer_lambda_theta.rda")
+save(infer_lambda_w, file = "parameter_recovery/infer_lambda_w.rda")
+save(infer_mu_a, file = "parameter_recovery/infer_mu_a.rda")
+save(infer_mu_A, file = "parameter_recovery/infer_mu_A.rda")
+save(infer_mu_theta, file = "parameter_recovery/infer_mu_theta.rda")
+save(infer_mu_w, file = "parameter_recovery/infer_mu_w.rda")
 
 
 
 
 
 setwd("/work/Exam")
-load("parameter_recovery_1/true_lambda_a.rda")
-load("parameter_recovery_1/true_lambda_A.rda")
-load("parameter_recovery_1/true_lambda_theta.rda")
-load("parameter_recovery_1/true_lambda_w.rda")
-load("parameter_recovery_1/true_mu_a.rda")
-load("parameter_recovery_1/true_mu_A.rda")
-load("parameter_recovery_1/true_mu_theta.rda")
-load("parameter_recovery_1/true_mu_w.rda")
+load("parameter_recovery/true_lambda_a.rda")
+load("parameter_recovery/true_lambda_A.rda")
+load("parameter_recovery/true_lambda_theta.rda")
+load("parameter_recovery/true_lambda_w.rda")
+load("parameter_recovery/true_mu_a.rda")
+load("parameter_recovery/true_mu_A.rda")
+load("parameter_recovery/true_mu_theta.rda")
+load("parameter_recovery/true_mu_w.rda")
 
-load("parameter_recovery_1/infer_lambda_a.rda")
-load("parameter_recovery_1/infer_lambda_A.rda")
-load("parameter_recovery_1/infer_lambda_theta.rda")
-load("parameter_recovery_1/infer_lambda_w.rda")
-load("parameter_recovery_1/infer_mu_a.rda")
-load("parameter_recovery_1/infer_mu_A.rda")
-load("parameter_recovery_1/infer_mu_theta.rda")
-load("parameter_recovery_1/infer_mu_w.rda")
+load("parameter_recovery/infer_lambda_a.rda")
+load("parameter_recovery/infer_lambda_A.rda")
+load("parameter_recovery/infer_lambda_theta.rda")
+load("parameter_recovery/infer_lambda_w.rda")
+load("parameter_recovery/infer_mu_a.rda")
+load("parameter_recovery/infer_mu_A.rda")
+load("parameter_recovery/infer_mu_theta.rda")
+load("parameter_recovery/infer_mu_w.rda")
 
 
 
